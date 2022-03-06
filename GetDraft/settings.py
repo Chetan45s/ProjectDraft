@@ -12,7 +12,7 @@ SECRET_KEY = env('SECRET_KEY')
 WEBSITE = env('WEBSITE')
 DEBUG = True
 AUTH_USER_MODEL = 'authenticate.User'
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['143.198.136.49','143.198.136.49:8000']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
