@@ -2,6 +2,7 @@ import environ
 from pathlib import Path
 import os
 import datetime
+import sys
 from django.core.management.utils import get_random_secret_key
 # Initialise environment variables
 env = environ.Env()
