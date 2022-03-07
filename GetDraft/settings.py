@@ -2,17 +2,19 @@ import environ
 from pathlib import Path
 import os
 import datetime
+from django.core.management.utils import get_random_secret_key
 # Initialise environment variables
 env = environ.Env()
 environ.Env.read_env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = env('SECRET_KEY')
-WEBSITE = env('WEBSITE')
-DEBUG = True
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", env('SECRET_KEY'))
+
+WEBSITE =  os.getenv('WEBSITE',env('WEBSITE'))
+DEBUG = os.getenv("DEBUG", "False") == "True"
 AUTH_USER_MODEL = 'authenticate.User'
-ALLOWED_HOSTS = ['project-draft-ybp4f.ondigitalocean.app',WEBSITE,'127.0.0.1']
+ALLOWED_HOSTS = [WEBSITE,'127.0.0.1']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -75,7 +77,6 @@ WSGI_APPLICATION = 'GetDraft.wsgi.application'
 # CORS WHITELIST
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
-    "https://relaxed-curie-e9a516.netlify.app",
     "http://127.0.0.1:8080"
 ]
 
@@ -83,12 +84,24 @@ CORS_ORIGIN_REGEX_WHITELIST = [
     r"^https://\w+\.netlify\.app$",
 ]
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+# Database
+# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
+
+if DEVELOPMENT_MODE is True:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        }
     }
-}
+elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
+    if os.getenv("DATABASE_URL", None) is None:
+        raise Exception("DATABASE_URL environment variable not defined")
+    DATABASES = {
+        "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
+    }
+
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
@@ -130,18 +143,9 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
-
-STATICFILES_DIRS = [
-
-    os.path.join(BASE_DIR, "static")
-
-]
-
-MEDIA_URL    = '/media/'
-
-STATIC_ROOT = '../static/'
-
-MEDIA_ROOT = '../media/'
+MEDIA_URL = '/media/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
