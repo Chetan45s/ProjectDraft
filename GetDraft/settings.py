@@ -10,9 +10,8 @@ environ.Env.read_env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", env('SECRET_KEY'))
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
-WEBSITE =  os.getenv('WEBSITE',env('WEBSITE'))
 DEBUG = os.getenv("DEBUG", "False") == "True"
 AUTH_USER_MODEL = 'authenticate.User'
 ALLOWED_HOSTS = ['project-draft-ybp4f.ondigitalocean.app','127.0.0.1']
