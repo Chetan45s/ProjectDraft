@@ -129,8 +129,19 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR,'static/')
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+
+    os.path.join(BASE_DIR, "static")
+
+]
+
+MEDIA_URL    = '/media/'
+
+STATIC_ROOT = '../static/'
+
+MEDIA_ROOT = '../media/'
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
