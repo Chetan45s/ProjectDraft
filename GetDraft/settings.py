@@ -15,7 +15,7 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", env('SECRET_KEY'))
 WEBSITE =  os.getenv('WEBSITE',env('WEBSITE'))
 DEBUG = os.getenv("DEBUG", "False") == "True"
 AUTH_USER_MODEL = 'authenticate.User'
-ALLOWED_HOSTS = [WEBSITE,'127.0.0.1']
+ALLOWED_HOSTS = ['project-draft-ybp4f.ondigitalocean.app','127.0.0.1']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -86,8 +86,6 @@ CORS_ORIGIN_REGEX_WHITELIST = [
 ]
 
 # Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
 
 DATABASES = {
     "default": {
