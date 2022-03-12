@@ -2,17 +2,19 @@ import environ
 from pathlib import Path
 import os
 import datetime
+import sys
+from django.core.management.utils import get_random_secret_key
 # Initialise environment variables
 env = environ.Env()
 environ.Env.read_env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = env('SECRET_KEY')
-WEBSITE = env('WEBSITE')
-DEBUG = True
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
+
+DEBUG = os.getenv("DEBUG", "False") == "True"
 AUTH_USER_MODEL = 'authenticate.User'
-ALLOWED_HOSTS = ['143.198.136.49','143.198.136.49:8000']
+ALLOWED_HOSTS = ['project-draft-ybp4f.ondigitalocean.app','127.0.0.1']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -25,6 +27,7 @@ INSTALLED_APPS = [
     # DRF
     'rest_framework',
     'authenticate',
+    'question',
 
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
@@ -75,7 +78,6 @@ WSGI_APPLICATION = 'GetDraft.wsgi.application'
 # CORS WHITELIST
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
-    "https://relaxed-curie-e9a516.netlify.app",
     "http://127.0.0.1:8080"
 ]
 
@@ -83,12 +85,15 @@ CORS_ORIGIN_REGEX_WHITELIST = [
     r"^https://\w+\.netlify\.app$",
 ]
 
+# Database
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
+
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
@@ -129,7 +134,15 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = 'static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
