@@ -1,7 +1,3 @@
 **/.env
 **/*.pyc
-<<<<<<< HEAD
 db.sqlite3
-=======
-db.sqlite3
->>>>>>> eb083f2d3446faa244defd00c9e248739cdd5246
