@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     # DRF
     'rest_framework',
     'authenticate',
+    'question',
 
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
@@ -133,6 +134,12 @@ USE_I18N = True
 
 USE_TZ = True
 
+<<<<<<< HEAD
+=======
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
+>>>>>>> eb083f2d3446faa244defd00c9e248739cdd5246
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
