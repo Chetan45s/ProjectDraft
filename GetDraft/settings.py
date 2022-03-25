@@ -75,6 +75,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'GetDraft.wsgi.application'
 
+CORS_ALLOW_ALL_ORIGINS = True
+
 # CORS WHITELIST
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
