@@ -4,7 +4,9 @@ from rest_framework.response import Response
 from django.urls import reverse
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+
 from .models import *
+from .serializer import DocumentSerializer
 import json
 # Create your views here.
 
@@ -16,6 +18,14 @@ QuestionModels = [
     'OptionalQuestion',
     'AddressQuestion'
 ]
+
+
+class GetAllDocuments(views.APIView):
+
+    def get(self,request):
+        document = Document.objects.all()
+        serializer =  DocumentSerializer(document, many=True)
+        return Response(serializer.data)
 
 
 class GetQuestionsApi(views.APIView):
